@@ -1,0 +1,34 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+
+fig = plt.figure()
+ax = fig.add_subplot(111, title="Population graph", ylabel = "N", xlabel = "t")
+plt.tight_layout()
+
+B = 0.
+R = 0.5
+D = 0.3
+N_0 = 2
+
+t = np.arange(0,20,1)
+
+for repeat in range(20):
+    N = 2
+    N_list = [2]
+    for i in t:
+        
+        for ii in range(N_list[-1]):
+            if random.choices(population=[True, False], weights=[R,1-R])[0]: 
+                N=N+1
+                print("reproduction")
+            if random.choices(population=[True, False], weights=[D,1-D])[0]:
+                N=N-1
+                print("death")
+        if random.choices(population=[True, False], weights=[B,1-B])[0]: N=N+1
+        N_list.append(N)
+    
+    N_list.pop()
+    ax.plot(t, N_list, color="red", linewidth = 0.4)
+    
+ax.plot(t, ((B+(R-D)*N_0)*np.e**((R-D)*t)-B)/(R-D), color="blue")
