@@ -2,19 +2,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 
-fig = plt.figure()
+fig = plt.figure(dpi=200)
 ax = fig.add_subplot(111, title="Population graph", ylabel = "N", xlabel = "t")
 plt.tight_layout()
 
-B = 0.
-R = 0.5
-D = 0.15
-N_0 = 50
+B = 0
+R = 0.11
+D = 0.101
+N_0 = 100
 
-t = np.arange(0,10,1)
-ax.plot(t, ((B+(R-D)*N_0)*np.e**((R-D)*t)-B)/(R-D), color="blue")
+t = np.arange(0, 50 ,1)
+ax.plot(t, ((B+(R-D)*N_0)*(1/(1-(R-D)))**t-B)/(R-D), color="blue")
 
-for repetition in range(50):
+for repetition in range(100):
     N = N_0
     N_list = []
     
@@ -23,10 +23,10 @@ for repetition in range(50):
         delta = 0
         delta = delta + random.choices(population=[1, 0], weights=[B,1-B])[0]
         for ii in range(N):
-            delta = delta + random.choices(population=[1, 0], weights=[R,1-R])[0]
             delta = delta + random.choices(population=[-1, 0], weights=[D,1-D])[0]
+            delta = delta + random.choices(population=[1, 0], weights=[R,1-R])[0]
+            
         N = N + delta
         
-        
     ax.plot(t, N_list, color="red", linewidth = 0.4)
-ax.plot(t, ((B+(R-D)*N_0)*np.e**((R-D)*t)-B)/(R-D), color="blue")
+ax.plot(t, ((B+(R-D)*N_0)*(1/(1-(R-D)))**t-B)/(R-D), color="blue")
