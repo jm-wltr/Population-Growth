@@ -8,22 +8,25 @@ plt.tight_layout()
 
 B = 0.
 R = 0.5
-D = 0.3
-N_0 = 2
+D = 0.15
+N_0 = 50
 
-t = np.arange(0,20,1)
+t = np.arange(0,10,1)
 ax.plot(t, ((B+(R-D)*N_0)*np.e**((R-D)*t)-B)/(R-D), color="blue")
 
-N = 2
-N_list = []
-
-for i in t:
-    delta = 0
-    delta = delta + random.choices(population=[1, 0], weights=[B,1-B])[0]
-    for ii in range(N):
-        delta = delta + random.choices(population=[1, 0], weights=[R,1-R])[0]
-        delta = delta + random.choices(population=[-1, 0], weights=[D,1-D])[0]
-    N = N + delta
-    N_list.append(N)
+for repetition in range(50):
+    N = N_0
+    N_list = []
     
-ax.plot(t, N_list, color="red", linewidth = 0.4)
+    for i in t:
+        N_list.append(N)
+        delta = 0
+        delta = delta + random.choices(population=[1, 0], weights=[B,1-B])[0]
+        for ii in range(N):
+            delta = delta + random.choices(population=[1, 0], weights=[R,1-R])[0]
+            delta = delta + random.choices(population=[-1, 0], weights=[D,1-D])[0]
+        N = N + delta
+        
+        
+    ax.plot(t, N_list, color="red", linewidth = 0.4)
+ax.plot(t, ((B+(R-D)*N_0)*np.e**((R-D)*t)-B)/(R-D), color="blue")
