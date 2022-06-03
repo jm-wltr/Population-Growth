@@ -12,23 +12,18 @@ D = 0.3
 N_0 = 2
 
 t = np.arange(0,20,1)
-
-for repeat in range(20):
-    N = 2
-    N_list = [2]
-    for i in t:
-        
-        for ii in range(N_list[-1]):
-            if random.choices(population=[True, False], weights=[R,1-R])[0]: 
-                N=N+1
-                print("reproduction")
-            if random.choices(population=[True, False], weights=[D,1-D])[0]:
-                N=N-1
-                print("death")
-        if random.choices(population=[True, False], weights=[B,1-B])[0]: N=N+1
-        N_list.append(N)
-    
-    N_list.pop()
-    ax.plot(t, N_list, color="red", linewidth = 0.4)
-    
 ax.plot(t, ((B+(R-D)*N_0)*np.e**((R-D)*t)-B)/(R-D), color="blue")
+
+N = 2
+N_list = []
+
+for i in t:
+    delta = 0
+    delta = delta + random.choices(population=[1, 0], weights=[B,1-B])[0]
+    for ii in range(N):
+        delta = delta + random.choices(population=[1, 0], weights=[R,1-R])[0]
+        delta = delta + random.choices(population=[-1, 0], weights=[D,1-D])[0]
+    N = N + delta
+    N_list.append(N)
+    
+ax.plot(t, N_list, color="red", linewidth = 0.4)
